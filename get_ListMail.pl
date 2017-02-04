@@ -7,31 +7,37 @@ use Data::Dumper;
 use Getopt::Long;
 use JSON qw(decode_json);
 
-#./get_ListMail.pl --domain your_domain --token your_token
+#perl get_ListMail.pl --domain your_domain --token your_token
 
 my $domain = '';
 my $pddtoken = '';
 my $page = 1;
 my $on_page = 50;
 
-&Main();
+#=========================================================================================
+main();
 
-sub Main
+#=========================================================================================
+sub main
 {
     system("clear");
+
     GetOptions ('domain=s' => \$domain, 'token=s' => \$pddtoken) or die("Error in command line arguments\n");
-    &PrintAllEmail();
+
+    print_all_email();
 }
 
-sub SetURL
+#=========================================================================================
+sub set_url
 {
     return "https://pddimp.yandex.ru/api2/admin/email/list?domain=$domain&page=$page&on_page=$on_page";
 }
 
-sub PrintAllEmail
+#=========================================================================================
+sub print_all_email
 {
     my $ua = LWP::UserAgent->new;
-    my $url = &SetURL();
+    my $url = set_url();
 
     my $response = $ua->get($url, 'PddToken' => $pddtoken);
 

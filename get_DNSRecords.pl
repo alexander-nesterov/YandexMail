@@ -6,31 +6,37 @@ use LWP::UserAgent;
 use Getopt::Long;
 use JSON qw(decode_json);
 
-#./get_DNSRecords.pl --domain your_domain --token your_token
+#perl get_DNSRecords.pl --domain your_domain --token your_token
 
 my $domain = '';
 my $pddtoken = '';
 my $page = 1;
 my $on_page = 50;
 
-&Main();
+#=========================================================================================
+main();
 
-sub Main
+#=========================================================================================
+sub main
 {
     system('clear');
+
     GetOptions ('domain=s' => \$domain, 'token=s' => \$pddtoken) or die("Error in command line arguments\n");
-    &PrintDNS();
+
+    print_DNS();
 }
 
-sub SetURL
+#=========================================================================================
+sub set_url
 {
     return "https://pddimp.yandex.ru/api2/admin/dns/list?domain=$domain";
 }
 
-sub PrintDNS
+#=========================================================================================
+sub print_DNS
 {
     my $ua = LWP::UserAgent->new;
-    my $url = &SetURL();
+    my $url = set_url();
 
     my $response = $ua->get($url, 'PddToken' => $pddtoken);
 
